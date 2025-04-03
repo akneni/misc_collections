@@ -284,7 +284,15 @@ class PersistentBox:
         self._load()
         self._obj[key] = value
         self._save()
-    
+
+    def __delitem__(self, key):
+        self._load()
+        try:
+            del self._obj[key]
+            self._save()
+        except Exception as e:
+            raise type(e)(f"Underlying object of type '{type(self._obj).__name__}' doesn't support item deletion: {str(e)}")
+
     def __len__(self):
         self._load()
         return len(self._obj)
