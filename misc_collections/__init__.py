@@ -134,8 +134,9 @@ class PersistentBox:
             if directory and not os.path.exists(directory):
                 os.makedirs(directory)
             
-            # Create a temporary file in the same directory
-            temp_path = f"{self._filepath}.tmp"
+            # Create a UNIQUE temporary file using process ID to avoid collisions
+            pid = os.getpid()
+            temp_path = f"{self._filepath}.{pid}.tmp"
             
             # Write to the temporary file
             with open(temp_path, 'wb') as f:
